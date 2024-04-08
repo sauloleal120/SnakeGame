@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<!--
+Created using JS Bin
+http://jsbin.com
+
+Copyright (c) 2021 by anonymous (http://jsbin.com/pilatamike/1/edit)
+
+Released under the MIT license: http://jsbin.mit-license.org
+-->
+<meta name="robots" content="noindex">
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <title>JS Bin</title>
+</head>
+<body>
+  <canvas id="canvas"> </canvas>
+<script id="jsbin-javascript">
+var canvas = document.getElementById('canvas');
+var ctx = canvas.getContext('2d');
+
+
+canvas.width = 400;
+canvas.height = 400;
+window.onload = function (){
+  document.addEventListener("keydown", teclas)
+  setInterval (game, 100)
+  
+  var vel = 1;
+  var vx = 0;
+  var vy = 0;
+  var hx = 0;
+  var hy = 0;
+  var box = 20;
+  var qp = 20;
+  var apx = 15*box;
+  var apy = 15*box;
+  
+  var trail =[];
+  var tail = 5;
+  
+  
+  function game () {
+   hx += vx;
+   hy += vy;
+    
+    
+    if (hx < 0) {hx = qp-1;}
+    if (hx > qp-1) {hx = 0;}
+    if (hy < 0) {hy = qp-1;}
+    if (hy > qp-1) {hy = 0;}
+    
+    
+    ctx.fillStyle = "black";
+    ctx.fillRect(0,0, canvas.width, canvas.height);
+    
+    ctx.fillStyle = "red";
+    ctx.fillRect(apx, apy, box, box);
+       
+    ctx.beginPath()
+    for (var i = 0; i < trail.length; i++) {
+    ctx.fillStyle = (i==trail.length -1)? "green" : "yellow";
+      
+     ctx.fillRect(trail[i].x*box, trail[i].y*box, box, box)
+      if(trail[i].x*box == apx && trail[i].y*box == apy) {tail++;  
+    apx = Math.floor(Math.random() * 20) * box;
+    apy = Math.floor(Math.random() * 20) * box; }
+          ctx.strokeStyle = "black"
+          ctx.strokeRect(trail[i].x*box, trail[i].y*box, box, box)
+      
+    }
+    
+    trail.push({x:hx, y:hy})
+    while (trail.length > tail) {trail.shift();
+                                 
+    }
+if (hx == trail[i]) {vel = 0}
+  }
+  
+ function teclas () {
+   switch (event.keyCode) {
+      case 37:
+        vx = -vel;
+        vy = 0;
+       break;
+        
+          case 38:
+        vx = 0;
+        vy = -vel;
+       break;
+        
+          case 39:
+        vx = vel;
+        vy = 0;
+       break;
+        
+          case 40:
+        vx = 0;
+        vy = vel;
+       break;}
+   
+ }
+  }
+
+
+</script>
+</body>
+</html>
